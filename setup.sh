@@ -20,9 +20,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-drivers=("virtualbox" "docker")
-default=${drivers[0]}
-driver=$default
+
 
 HEADER=$(cat <<HEADER_S
 	███████╗████████╗     ███████╗███████╗██████╗ ██╗   ██╗██╗ ██████╗███████╗███████╗
@@ -34,7 +32,6 @@ HEADER=$(cat <<HEADER_S
 HEADER_S
 )
 
-echo "$HEADER"
 
 status_msg()
 {
@@ -112,8 +109,18 @@ minikube_setup()
 	fi
 }
 
-echo ""
-echo ""
-category "Minikube"
-select_driver
-minikube_setup
+main()
+{
+	drivers=("virtualbox" "docker")
+	default=${drivers[0]}
+	driver=$default
+
+	echo "$HEADER"
+	echo ""
+	echo ""
+	category "Minikube"
+	select_driver
+	minikube_setup
+}
+
+main
