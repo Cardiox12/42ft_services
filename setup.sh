@@ -7,6 +7,7 @@
 #		- Check if minikube exists
 #		- Delete minikube cluster
 #		- Start minikube with vm driver previously chosen
+#		- Install metalLB
 #	- Build docker local images
 #	- Deploy :
 #		- Service
@@ -217,6 +218,26 @@ setup_images()
 	print_docker_images "$folders"
 }
 
+setup_metallb()
+{
+	kubectl get configmap kube-proxy -n kube-system -o yaml | \
+		sed -e "s/strictARP: false/strictARP: true/" | \
+		kubectl apply -f - -n kube-system &> /dev/null
+	status_msg success "Configure kube-proxy ARP"
+
+	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml &> /dev/null
+	status_msg success "Creating metallb-system namespace"
+
+	kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml &> /dev/null
+	status_msg success "Installing MetalLB"
+
+	kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" &> /dev/null
+	status_msg success "Creating metallb-system secret key"
+
+	kubectl apply -f ./srcs/manifests/config/config.yaml &> /dev/null
+	status_msg success "Configure IP range"
+}
+
 main()
 {
 	drivers=("virtualbox" "docker")
@@ -237,6 +258,9 @@ main()
 
 	print_category "Docker"
 	setup_images
+
+	print_category "MetalLB"
+	setup_metallb
 }
 
 main $@
