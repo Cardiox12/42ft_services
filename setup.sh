@@ -164,7 +164,6 @@ minikube_setup()
 	fi
 
 	status_msg success "Starting minikube ... be patient"
-    rm -rf $HOME/.minikube
 	if minikube start --vm-driver="$driver" --extra-config=apiserver.service-node-port-range=1-35000 &> /dev/null
 	then
 		status_msg success "Minikube started successfully"
