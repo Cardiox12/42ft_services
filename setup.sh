@@ -238,6 +238,19 @@ setup_metallb()
 	status_msg success "Configure IP range"
 }
 
+deploy()
+{	
+	# Create configmaps from config files
+	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf
+
+	# Create Deployments and Services
+	for folder in $(ls -d ./srcs/manifests/** ); do
+		if [[ $(echo "$folder" | grep -Ev "config") != "" ]]; then
+			kubectl apply -f "$folder"
+		fi
+	done
+}
+
 main()
 {
 	drivers=("virtualbox" "docker")
@@ -261,6 +274,9 @@ main()
 
 	print_category "MetalLB"
 	setup_metallb
+
+	print_category "Kubernetes"
+	deploy
 }
 
 main $@
