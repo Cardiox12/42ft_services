@@ -238,6 +238,15 @@ setup_metallb()
 	status_msg success "Configure IP range"
 }
 
+deploy()
+{
+	for folder in $(ls -d ./srcs/manifests/** ); do
+		if [[ $(echo "$folder" | grep -Ev "config") != "" ]]; then
+			kubectl apply -f "$folder"
+		fi
+	done
+}
+
 main()
 {
 	drivers=("virtualbox" "docker")
@@ -261,6 +270,9 @@ main()
 
 	print_category "MetalLB"
 	setup_metallb
+
+	print_category "Kubernetes"
+	deploy
 }
 
 main $@

@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  nginx.conf: "server {\n\tlisten 80;\n\tlisten [::]:80;\n\n\treturn 301 https://$host$request_uri;\n}\n\nserver
+    {\n\t# SSL configuration\n\tlisten 443 ssl default_server;\n\tlisten [::]:443
+    ssl default_server;\n\n\tssl on;\n\tssl_certificate /etc/ssl/certs/server.crt;\n\tssl_certificate_key
+    /etc/ssl/private/server.key;\n\n\troot /var/www/html;\n    # server_name localhost;\n\n\tlocation
+    / {\n\t\tautoindex $AUTO_INDEX;\n\t\ttry_files $uri $uri/ =404;\n\t}\n}\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: nginx
