@@ -12,7 +12,6 @@ RUN mkdir -p /run/mysqld ; \
 
 RUN mysql_install_db --user=root --datadir="/var/lib/mysql"
 
-
 EXPOSE 3306
 
 CMD ["/usr/bin/mysqld", "--user=root"]
