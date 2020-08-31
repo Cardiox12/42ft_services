@@ -14,7 +14,7 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'pma';
+$cfg['Servers'][$i]['host'] = 'mysql';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
@@ -26,7 +26,7 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
 $cfg['Servers'][$i]['controlhost'] = 'mysql';
 $cfg['Servers'][$i]['controlport'] = '3306';
 $cfg['Servers'][$i]['controluser'] = 'pma';
-$cfg['Servers'][$i]['controlpass'] = 'pmapass';
+$cfg['Servers'][$i]['controlpass'] = 'root';
 
 /* Storage database and tables */
 $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
