@@ -1,0 +1,2 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'*' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' IDENTIFIED BY 'user' WITH GRANT OPTION;
