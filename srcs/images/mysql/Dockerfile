@@ -14,4 +14,4 @@ ADD ./srcs/startup.sh /tmp
 
 EXPOSE 3306
 
-CMD ["ash", "/tmp/startup.sh"]
+CMD ["/bin/ash", "/tmp/startup.sh"]
