@@ -10,6 +10,7 @@ RUN sed -i 's/skip-networking/#skip-networking/g' /etc/my.cnf.d/mariadb-server.c
 
 ADD ./srcs/create_tables.sql /tmp
 ADD ./srcs/create_users.sql /tmp
+ADD ./srcs/wordpress.sql /tmp
 ADD ./srcs/startup.sh /tmp
 
 EXPOSE 3306
