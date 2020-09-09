@@ -13,8 +13,8 @@ RUN ln -s /root/grafana/bin/grafana-cli /usr/bin;\
 RUN mkdir -p /var/lib/grafana/dashboards
 
 ADD ./srcs/dashboard.json /var/lib/grafana/dashboards
-ADD ./srcs/dashboard.yaml /tmp
-ADD ./srcs/datasources.yaml /tmp
+ADD ./srcs/dashboard.yaml /root/grafana/conf/provisioning/dashboards
+ADD ./srcs/datasources.yaml /root/grafana/conf/provisioning/datasources
 ADD ./srcs/startup.sh /tmp
 
 EXPOSE 3000
