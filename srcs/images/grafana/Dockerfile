@@ -10,6 +10,11 @@ RUN apk update ;\
 RUN ln -s /root/grafana/bin/grafana-cli /usr/bin;\
     ln -s /root/grafana/bin/grafana-server /usr/bin;
 
+RUN mkdir -p /var/lib/grafana/dashboards
+
+ADD ./srcs/dashboard.json /var/lib/grafana/dashboards
+ADD ./srcs/dashboard.yaml /tmp
+ADD ./srcs/datasources.yaml /tmp
 ADD ./srcs/startup.sh /tmp
 
 EXPOSE 3000
