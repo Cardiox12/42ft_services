@@ -3,31 +3,35 @@ kind: Deployment
 metadata:
     name: nginx
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
+  replicas: 1
+  selector:
+      matchLabels:
+          app: nginx
+  template:
+      metadata:
+        name: nginx
+        labels:
             app: nginx
-    template:
-        metadata:
+      spec:
+        containers:
+          - image: nginx
             name: nginx
-            labels:
-                app: nginx
-        spec:
-            containers:
-                - image: nginx
-                  name: nginx
-                  imagePullPolicy: Never
-                  ports:
-                      - containerPort: 80
-                      - containerPort: 443
-                  volumeMounts:
-                      - name: conf
-                        mountPath: "/etc/nginx/conf.d/"
-                  command: ["nginx", "-g", "daemon off;"]
-            volumes:
-                - name: conf
-                  configMap:
-                      name: nginx-conf
+            imagePullPolicy: Never
+            ports:
+              - containerPort: 80
+              - containerPort: 443
+            resources:
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+            volumeMounts:
+              - name: conf
+                mountPath: "/etc/nginx/conf.d/"
+            command: ["nginx", "-g", "daemon off;"]
+        volumes:
+            - name: conf
+              configMap:
+                  name: nginx-conf
 ---
 apiVersion: v1
 kind: Service
