@@ -15,4 +15,8 @@ RUN mkdir -p /var/log/ftp
 ADD ./srcs/vsftpd.conf /etc/vsftpd/
 ADD ./srcs/startup.sh /
 
+RUN mkdir -p /ftp
+
+EXPOSE 21 21000-21005
+
 CMD ["/bin/ash", "/startup.sh"]
