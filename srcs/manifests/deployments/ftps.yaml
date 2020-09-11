@@ -20,6 +20,7 @@ spec:
             memory: "128Mi"
             cpu: "500m"
         ports:
+        - containerPort: 20
         - containerPort: 21
         - containerPort: 21000
         - containerPort: 21001
@@ -37,6 +38,9 @@ spec:
   selector:
     app: ftps
   ports:
+  - name: ftps-port-20
+    port: 20
+    targetPort: 20
   - name: ftps-port-21
     port: 21
     targetPort: 21
