@@ -3,31 +3,35 @@ kind: Deployment
 metadata:
     name: mysql
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: mysql 
-    template:
-        metadata:
-            name: mysql
-            labels:
-                app: mysql
-        spec:
-            containers:
-                - image: mysql
-                  name: mysql
-                  imagePullPolicy: Never
-                  ports:
-                      - containerPort: 3306
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql 
+  template:
+    metadata:
+      name: mysql
+      labels:
+          app: mysql
+    spec:
+      containers:
+        - image: mysql
+          name: mysql
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3306
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: mysql
 spec:
-    type: ClusterIP
-    selector:
-        app: mysql
-    ports:
-        - port: 3306
-          targetPort: 3306
+  type: ClusterIP
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306

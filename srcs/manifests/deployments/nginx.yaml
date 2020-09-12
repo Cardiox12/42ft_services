@@ -3,42 +3,42 @@ kind: Deployment
 metadata:
     name: nginx
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
+  replicas: 1
+  selector:
+      matchLabels:
+          app: nginx
+  template:
+    metadata:
+        name: nginx
+        labels:
             app: nginx
-    template:
-        metadata:
-            name: nginx
-            labels:
-                app: nginx
-        spec:
-            containers:
-                - image: nginx
-                  name: nginx
-                  imagePullPolicy: Never
-                  ports:
-                      - containerPort: 80
-                  volumeMounts:
-                      - name: conf.d
-                        mountPath: "/etc/nginx/"
-                        ressources:
-                  limits:
-                    memory: "128Mi"
-                    cpu: "500m"
-            volumes:
-                - name: conf.d
-                  configMap:
-                      name: nginx
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: conf
+              mountPath: "/etc/nginx/conf.d/"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      volumes:
+        - name: conf
+          configMap:
+              name: nginx-conf
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: nginx
 spec:
-    type: LoadBalancer
-    selector:
-        app: nginx
-    ports:
-        - port: 80
-          targetPort: 80
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80

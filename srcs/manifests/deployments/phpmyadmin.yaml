@@ -3,31 +3,35 @@ kind: Deployment
 metadata:
     name: phpmyadmin
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: phpmyadmin
-    template:
-        metadata:
-            name: phpmyadmin
-            labels:
-                app: phpmyadmin
-        spec:
-            containers:
-                - image: phpmyadmin
-                  name: phpmyadmin
-                  imagePullPolicy: Never
-                  ports:
-                       - containerPort: 5000
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      name: phpmyadmin
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+        - image: phpmyadmin
+          name: phpmyadmin
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: phpmyadmin
+  name: phpmyadmin
 spec:
-    type: LoadBalancer
-    selector:
-        app: phpmyadmin
-    ports:
-        - port: 5000
-          targetPort: 5000
+  type: LoadBalancer
+  selector:
+    app: phpmyadmin
+  ports:
+  - port: 5000
+    targetPort: 5000
