@@ -29,10 +29,6 @@ spec:
       - name: influxdb
         image: influxdb
         imagePullPolicy: Never
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
         ports:
         - containerPort: 8086
         volumeMounts:

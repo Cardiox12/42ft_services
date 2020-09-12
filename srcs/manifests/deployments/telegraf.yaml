@@ -15,10 +15,6 @@ spec:
       - name: telegraf
         image: telegraf
         imagePullPolicy: Never
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
         volumeMounts:
           - name: docker-socket
             mountPath: "/var/run/docker.sock"
