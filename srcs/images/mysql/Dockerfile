@@ -4,8 +4,6 @@ RUN apk update ; apk add bash mysql mysql-client openrc
 
 RUN openrc ; touch /run/openrc/softlevel
 
-RUN /etc/init.d/mariadb setup
-
 RUN sed -i 's/skip-networking/#skip-networking/g' /etc/my.cnf.d/mariadb-server.cnf
 
 ADD ./srcs/create_tables.sql /tmp

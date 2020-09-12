@@ -19,6 +19,7 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+            - containerPort: 443
           volumeMounts:
             - name: conf
               mountPath: "/etc/nginx/conf.d/"
@@ -36,5 +37,9 @@ spec:
   selector:
     app: nginx
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443

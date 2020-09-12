@@ -33,6 +33,9 @@ RUN ln -s /usr/share/webapps/wordpress/ /var/www/localhost/htdocs/wordpress
 
 ADD ./srcs/wp-config.php /usr/share/webapps/wordpress
 
+ADD ./srcs/startup.sh /
+
 EXPOSE 5050
 
-CMD ["/usr/bin/php", "-S", "0.0.0.0:5050", "-t", "/usr/share/webapps/wordpress"]
+CMD ["/bin/ash", "/startup.sh"]
+# CMD ["/usr/bin/php", "-S", "0.0.0.0:5050", "-t", "/usr/share/webapps/wordpress"]
