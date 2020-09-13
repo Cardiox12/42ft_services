@@ -246,7 +246,17 @@ deploy()
 
 	# Create Deployments and Services
 	status_msg success "Deploying in progress"
-	kubectl apply -f ./srcs/manifests/deployments
+
+	printf "%-20s %-20s\n" "NAME" "STATUS"
+	for deployment in $(ls -d ./srcs/manifests/deployments/*)
+	do
+		if kubectl apply -f "${deployment}" &> /dev/null
+		then
+			printf "%-20s ${GREEN}%-20s${NC}\n" "$(basename ${deployment%.*})" "deploy"
+		else
+			printf "%-20s ${RED}%-20s${NC}\n" "$(basename ${deployment%.*})" "failure"
+		fi
+	done
 }
 
 main()
@@ -263,15 +273,15 @@ main()
 
 	print_header
 
-	print_category "Minikube"
-	select_driver
-	minikube_setup
+	# print_category "Minikube"
+	# select_driver
+	# minikube_setup
 
-	print_category "Docker"
-	setup_images
+	# print_category "Docker"
+	# setup_images
 
-	print_category "MetalLB"
-	setup_metallb
+	# print_category "MetalLB"
+	# setup_metallb
 
 	print_category "Kubernetes"
 	deploy
