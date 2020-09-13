@@ -38,4 +38,3 @@ ADD ./srcs/startup.sh /
 EXPOSE 5050
 
 CMD ["/bin/ash", "/startup.sh"]
-# CMD ["/usr/bin/php", "-S", "0.0.0.0:5050", "-t", "/usr/share/webapps/wordpress"]
