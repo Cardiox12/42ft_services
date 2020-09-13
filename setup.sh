@@ -244,9 +244,11 @@ deploy()
 	status_msg success "Creating configmaps"
 	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf
 
+	# Waiting for metallb to be configured
+	sleep 10
+
 	# Create Deployments and Services
 	status_msg success "Deploying in progress"
-
 	printf "%-20s %-20s\n" "NAME" "STATUS"
 	for deployment in $(ls -d ./srcs/manifests/deployments/*)
 	do
@@ -273,15 +275,15 @@ main()
 
 	print_header
 
-	# print_category "Minikube"
-	# select_driver
-	# minikube_setup
+	print_category "Minikube"
+	select_driver
+	minikube_setup
 
-	# print_category "Docker"
-	# setup_images
+	print_category "Docker"
+	setup_images
 
-	# print_category "MetalLB"
-	# setup_metallb
+	print_category "MetalLB"
+	setup_metallb
 
 	print_category "Kubernetes"
 	deploy
