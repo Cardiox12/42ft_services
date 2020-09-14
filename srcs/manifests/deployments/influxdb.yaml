@@ -34,6 +34,13 @@ spec:
         volumeMounts:
           - mountPath: "/root/.influxdb"
             name: influxdb-data
+        livenessProbe:
+          exec:
+            command:
+              - /bin/ash
+              - /liveness.sh
+          initialDelaySeconds: 60
+          periodSeconds: 5
       volumes:
         - name: influxdb-data
           persistentVolumeClaim:
