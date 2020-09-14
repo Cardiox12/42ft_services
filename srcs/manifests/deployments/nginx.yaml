@@ -25,14 +25,21 @@ spec:
             - name: conf
               mountPath: "/etc/nginx/conf.d/"
           livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-              httpHeaders:
-                - name: Custom-Header
-                  value: Nginx liveness test
+            exec:
+              command:
+                - /bin/ash
+                - /liveness.sh
             initialDelaySeconds: 60
             periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #     httpHeaders:
+          #       - name: Custom-Header
+          #         value: Nginx liveness test
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 10
       volumes:
         - name: conf
           configMap:

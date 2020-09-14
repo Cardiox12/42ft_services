@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk update ; apk add nginx openrc openssl openssh
+RUN apk update ; apk add nginx openrc openssl openssh curl
 
 
 RUN mkdir /www ; adduser -D -g 'www' www ; chown -R www:www /var/lib/nginx ; chown -R www:www /www
@@ -14,4 +14,6 @@ RUN rc-update add sshd
 EXPOSE 80 443 22
 
 ADD ./srcs/startup.sh /
+ADD ./srcs/liveness.sh /
+
 CMD ["/bin/ash", "/startup.sh"]
