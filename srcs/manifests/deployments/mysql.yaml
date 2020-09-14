@@ -36,6 +36,13 @@ spec:
           volumeMounts:
             - mountPath: "/var/lib/mysql"
               name: mysql-data-volume
+          livenessProbe:
+            exec:
+              command:
+                - /bin/ash
+                - /liveness.sh
+            initialDelaySeconds: 60
+            periodSeconds: 5
       volumes:
       - name: mysql-data-volume
         persistentVolumeClaim:
