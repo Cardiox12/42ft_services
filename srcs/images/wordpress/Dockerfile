@@ -7,7 +7,7 @@ php7-imap php7-cgi fcgi php7-pdo \
 php7-pdo_mysql php7-soap php7-xmlrpc \
 php7-posix php7-mcrypt php7-gettext \
 php7-ldap php7-ctype php7-dom \
-wget mysql mysql-client openrc php
+wget mysql mysql-client openrc php curl
 
 RUN sed -i 's/#include "mod_fastcgi.conf"/include "mod_fastcgi.conf"/g' /etc/lighttpd/lighttpd.conf
 
@@ -33,6 +33,10 @@ RUN ln -s /usr/share/webapps/wordpress/ /var/www/localhost/htdocs/wordpress
 
 ADD ./srcs/wp-config.php /usr/share/webapps/wordpress
 
+ADD ./srcs/liveness.sh /
+ADD ./srcs/startup.sh /
+
 EXPOSE 5050
 
-CMD ["/usr/bin/php", "-S", "0.0.0.0:5050", "-t", "/usr/share/webapps/wordpress"]
+# CMD ["/usr/bin/php", "-S", "0.0.0.0:5050", "-t", "/usr/share/webapps/wordpress"]
+CMD ["/bin/ash", "/startup.sh"]
