@@ -18,6 +18,13 @@ spec:
         volumeMounts:
           - name: docker-socket
             mountPath: "/var/run/docker.sock"
+        livenessProbe:
+          exec:
+            command:
+              - /bin/ash
+              - /liveness.sh
+          initialDelaySeconds: 20
+          periodSeconds: 5
       volumes:
       - name: docker-socket
         hostPath:
