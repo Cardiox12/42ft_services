@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk update ; apk add vsftpd openrc openssl
+RUN apk update ; apk add vsftpd openrc openssl curl
 
 RUN openrc ; touch /run/openrc/softlevel
 RUN mkdir -p /srv/ftp ; chown nobody:nogroup /srv/ftp
@@ -16,6 +16,8 @@ ADD ./srcs/vsftpd.conf /etc/vsftpd/
 ADD ./srcs/startup.sh /
 
 RUN mkdir -p /ftp
+
+ADD ./srcs/liveness.sh /
 
 EXPOSE 21 21000-21005
 

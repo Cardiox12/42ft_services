@@ -1,0 +1,1 @@
+curl --insecure --ftp-ssl ftp://localhost:21//ftp/ --user "admin:Admin-1234" -l
