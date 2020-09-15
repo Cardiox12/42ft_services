@@ -286,7 +286,8 @@ deploy()
 	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf
 
 	# Waiting for metallb to be configured
-	sleep 20
+	status_msg success "Please be patient, process can lst up to 1 minute"
+	sleep 60
 
 	# Create Deployments and Services
 	status_msg success "Deploying in progress"
