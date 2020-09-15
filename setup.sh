@@ -117,12 +117,34 @@ print_header()
 	echo "$HEADER"
 }
 
-select_driver()
+# select_driver()
+# {
+# 	printf "Select Minikube vm driver\n"
+# 	for index in ${!drivers[*]}
+# 	do
+# 		item=${drivers[$index]}
+# 		printf "$(( index + 1 ))) $item\n"
+# 	done
+
+# 	printf "> "
+# 	read index
+# 	echo ""
+
+# 	if [[ "$index" -gt "0" ]] && [[ "$index" -le "2" ]]
+# 	then
+# 		driver=${drivers[$(( index - 1))]}
+# 		status_msg success "Vm driver is set to $BLUE$driver$NC" 
+# 	else
+# 		status_msg warning "Vm driver is set to default driver $BLUE$driver$NC"
+# 	fi
+# }
+
+select_os()
 {
-	printf "Select Minikube vm driver\n"
-	for index in ${!drivers[*]}
+	printf "Select operating system\n"
+	for index in ${!systems[*]}
 	do
-		item=${drivers[$index]}
+		item=${systems[$index]}
 		printf "$(( index + 1 ))) $item\n"
 	done
 
@@ -132,11 +154,19 @@ select_driver()
 
 	if [[ "$index" -gt "0" ]] && [[ "$index" -le "2" ]]
 	then
-		driver=${drivers[$(( index - 1))]}
-		status_msg success "Vm driver is set to $BLUE$driver$NC" 
+		os=${systems[$(( index - 1))]}
+		status_msg success "Operating system is set to $BLUE$os$NC" 
 	else
-		status_msg warning "Vm driver is set to default driver $BLUE$driver$NC"
+		status_msg warning "Operating system is set to default $BLUE$default$NC"
 	fi
+}
+
+apply_compatibility()
+{
+	# Copy files into their right directory
+	cp srcs/manifests/compatibility/${os}/ftps/startup.sh srcs/images/ftps/srcs
+	cp srcs/manifests/compatibility/${os}/metallb/config.yaml srcs/manifests/config
+	cp srcs/manifests/compatibility/${os}/wordpress/wordpress.sql srcs/images/mysql/srcs
 }
 
 minikube_setup()
@@ -145,7 +175,7 @@ minikube_setup()
 	then
 		status_msg success "Minikube is installed"
 	else
-		status_msg danger "Minikube is missing" 
+		status_msg danger "Minikube not found, please install minikube"
 		exit 1
 	fi
 
@@ -163,8 +193,17 @@ minikube_setup()
 		fi
 	fi
 
+	if [[ "$os" == "${systems[0]}" ]]
+	then
+		driver=${drivers[0]}
+	else
+		driver=${drivers[1]}
+	fi
+
+	status_msg success "Setting up vm driver to ${BLUE}${driver}${NC}"
+
 	status_msg success "Starting minikube ... be patient"
-	if minikube start --vm-driver="$driver" --extra-config=apiserver.service-node-port-range=1-35000 &> /dev/null
+	if minikube start --vm-driver="$driver" &> /dev/null
 	then
 		status_msg success "Minikube started successfully"
 	else
@@ -263,9 +302,12 @@ deploy()
 
 main()
 {
+	systems=("macos" "linux")
 	drivers=("virtualbox" "docker")
-	default=${drivers[0]}
-	driver=$default
+	# default=${drivers[0]}
+	# driver=$default
+	default=${systems[0]}
+	os=$default
 	_preserve_session=0
 
 	if [ "$1" == "--preserve-session" ]
@@ -276,7 +318,8 @@ main()
 	print_header
 
 	print_category "Minikube"
-	select_driver
+	select_os
+	apply_compatibility
 	minikube_setup
 
 	print_category "Docker"
