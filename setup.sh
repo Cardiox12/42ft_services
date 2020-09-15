@@ -164,6 +164,8 @@ select_os()
 apply_compatibility()
 {
 	# Copy files into their right directory
+	mkdir -p srcs/manifests/config
+	
 	cp srcs/manifests/compatibility/${os}/ftps/startup.sh srcs/images/ftps/srcs
 	cp srcs/manifests/compatibility/${os}/metallb/config.yaml srcs/manifests/config
 	cp srcs/manifests/compatibility/${os}/wordpress/wordpress.sql srcs/images/mysql/srcs
