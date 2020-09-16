@@ -186,6 +186,7 @@ minikube_setup()
 		status_msg success "Preserve session : ${BLUE}on${NC}"
 	else
 		status_msg warning "Preserve session : ${RED}off${NC}"
+
 		if minikube delete &> /dev/null
 		then
 			status_msg success "Removing old minikube clusters"
@@ -286,7 +287,7 @@ deploy()
 	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf
 
 	# Waiting for metallb to be configured
-	status_msg success "Please be patient, process can lst up to 1 minute"
+	status_msg success "Please be patient, process can last up to 1 minute..."
 	sleep 60
 
 	# Create Deployments and Services
@@ -307,8 +308,6 @@ main()
 {
 	systems=("macos" "linux")
 	drivers=("virtualbox" "docker")
-	# default=${drivers[0]}
-	# driver=$default
 	default=${systems[0]}
 	os=$default
 	_preserve_session=0
