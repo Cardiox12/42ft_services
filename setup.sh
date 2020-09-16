@@ -284,7 +284,7 @@ deploy()
 {	
 	# Create configmaps from config files
 	status_msg success "Creating configmaps"
-	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf
+	kubectl create configmap nginx-conf --from-file=./srcs/manifests/configmaps/nginx/serv.conf &> /dev/null
 
 	# Waiting for metallb to be configured
 	status_msg success "Please be patient, process can last up to 1 minute..."
@@ -302,6 +302,8 @@ deploy()
 			printf "%-20s ${RED}%-20s${NC}\n" "$(basename ${deployment%.*})" "failure"
 		fi
 	done
+	minikube dashboard &> /dev/null &
+	printf "%-20s ${GREEN}%-20s${NC}\n" "dashboard" "deploy"
 }
 
 main()
